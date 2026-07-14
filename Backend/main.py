@@ -15,24 +15,11 @@ client = Groq(api_key=API_KEY)
 
 app = FastAPI()
 
-# Dynamic CORS configuration
-allowed_origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-
-# Add Vercel URLs
-vercel_urls = os.getenv("VERCEL_URLS", "").split(",")
-for url in vercel_urls:
-    url = url.strip()
-    if url:
-        allowed_origins.append(f"https://{url}")
-
+# Allow all origins for ngrok compatibility
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -69,3 +56,8 @@ def chat(req: ChatRequest):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
