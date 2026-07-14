@@ -189,7 +189,10 @@ function AskAI() {
       const apiUrl = "https://puritan-conflict-widget.ngrok-free.dev";
       const response = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify({
           messages: nextMessages
             .filter((m) => m.role === "user" || m.role === "assistant")
