@@ -186,7 +186,8 @@ function AskAI() {
     setMessages(nextMessages);
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/api/chat", {
+      const apiUrl = "https://puritan-conflict-widget.ngrok-free.dev";
+      const response = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

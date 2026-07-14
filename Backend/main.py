@@ -15,13 +15,24 @@ client = Groq(api_key=API_KEY)
 
 app = FastAPI()
 
+# Dynamic CORS configuration
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+# Add Vercel URLs
+vercel_urls = os.getenv("VERCEL_URLS", "").split(",")
+for url in vercel_urls:
+    url = url.strip()
+    if url:
+        allowed_origins.append(f"https://{url}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        # "https://your-portfolio.vercel.app",
-    ],
+    allow_origins=allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

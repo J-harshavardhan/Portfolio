@@ -1,0 +1,5 @@
+# Railway Configuration
+# Deploy with: railway up
+# After deployment, get your URL and add to Vercel as VITE_API_URL
+
+# This file tells Railway how to run your backend
