@@ -186,12 +186,12 @@ function AskAI() {
     setMessages(nextMessages);
     setLoading(true);
     try {
-      const apiUrl = "https://puritan-conflict-widget.ngrok-free.dev";
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
       const response = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
+          ...(apiUrl.includes("ngrok") ? { "ngrok-skip-browser-warning": "true" } : {}),
         },
         body: JSON.stringify({
           messages: nextMessages
