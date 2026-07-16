@@ -186,7 +186,11 @@ function AskAI() {
     setMessages(nextMessages);
     setLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+      // Production always uses Vercel's same-origin serverless function. Local
+      // development keeps using the FastAPI server configured in .env.local.
+      const apiUrl = import.meta.env.DEV
+        ? (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "")
+        : "";
       const response = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
         headers: {
@@ -199,14 +203,23 @@ function AskAI() {
             .map((m) => ({ role: m.role, content: m.text })),
         }),
       });
-      if (!response.ok) throw new Error("Backend error");
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        const message =
+          typeof data.error === "string"
+            ? data.error
+            : response.status === 401
+              ? "This Vercel deployment is protected. Disable Deployment Protection to make the assistant public."
+              : "The assistant is temporarily unavailable.";
+        throw new Error(message);
+      }
       const data = await response.json();
       setMessages((prev) => [
         ...prev,
         { role: "assistant", text: data.text || "Hmm, I didn't get a response. Try asking again." },
       ]);
     } catch (e) {
-      setError("Couldn't reach the assistant right now.");
+      setError(e.message || "Couldn't reach the assistant right now.");
       setMessages((prev) => prev.slice(0, -1));
     } finally {
       setLoading(false);
