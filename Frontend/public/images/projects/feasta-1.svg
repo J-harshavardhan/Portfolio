@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#g2)"/>
+  <text x="110" y="170" fill="#eff6ff" font-size="58" font-family="Arial, sans-serif" font-weight="700">AI-FEASTA</text>
+  <text x="110" y="235" fill="#dbeafe" font-size="32" font-family="Arial, sans-serif">Chat + Image Generation in one workspace</text>
+</svg>

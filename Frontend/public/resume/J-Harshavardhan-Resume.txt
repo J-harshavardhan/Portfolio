@@ -1,0 +1,45 @@
+J. HARSHAVARDHAN
+Email: jharshavardhan28@gmail.com
+Location: Nellore, India
+Role: Generative AI Engineer Intern
+
+PROFESSIONAL SUMMARY
+Final-year B.Tech AI & ML student focused on building reliable, production-oriented AI applications. Experienced in full-stack delivery with FastAPI and React, prompt engineering, and model-response quality improvements.
+
+EXPERIENCE
+1) Generative AI Engineer Intern, Blackbucks Education (2026 - Present)
+- Built and shipped practical GenAI features for education workflows.
+- Deployed AI-powered summarization systems with reliability checks.
+
+2) Campus Mantri, GeeksforGeeks (2025 - Present)
+- Led campus-level technical promotion campaigns.
+- Supported peer learning in DSA and interview preparation.
+
+PROJECTS
+1) Medical Report Summarizer
+- Stack: FastAPI, React, Vite, Groq (Llama)
+- Focus: Hallucination detection and safe summarization
+
+2) AI-FEASTA
+- Stack: React, FastAPI, Claude API, Gemini API, Firebase
+- Focus: Unified chatbot and image generation UX
+
+3) ChurnGuard
+- Stack: Python, Scikit-learn, Pandas
+- Focus: Telecom churn prediction pipeline
+- Outcome: ROC-AUC 0.814
+
+4) TrendPulse
+- Stack: Python, Reddit API, ETL
+- Focus: Social trend extraction pipeline
+
+SKILLS
+- Languages: Java, Python, JavaScript, SQL
+- AI/LLM: Groq API, Claude API, Gemini API, Prompt Engineering
+- Frameworks: React, Vite, FastAPI, Firebase
+- Tools: Git, GitHub, Vercel, Postman
+
+ACHIEVEMENTS
+- 300+ competitive programming problems solved
+- AI & ML Certificate Program (IIT Patna x Masai School, 2025)
+- Automotive Service Technician Certification (Bosch India Foundation, 2024)

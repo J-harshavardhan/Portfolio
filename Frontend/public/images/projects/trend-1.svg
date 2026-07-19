@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#7c2d12"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#g4)"/>
+  <text x="110" y="180" fill="#fff7ed" font-size="56" font-family="Arial, sans-serif" font-weight="700">TrendPulse</text>
+  <text x="110" y="245" fill="#fed7aa" font-size="34" font-family="Arial, sans-serif">Reddit ETL for trend analytics</text>
+</svg>

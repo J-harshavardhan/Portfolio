@@ -1,0 +1,229 @@
+{
+  "profile": {
+    "name": "J. Harshavardhan",
+    "role": "Generative AI Engineer Intern",
+    "location": "Nellore, India",
+    "email": "jharshavardhan28@gmail.com",
+    "photo": "/images/profile/hero.png",
+    "tagline": "I build reliable AI experiences with strong backend foundations and product-focused thinking.",
+    "summary": "Final-year B.Tech AI and ML student at GIST, focused on production-grade GenAI systems and full-stack implementation.",
+    "resumeFile": "/resume/J-Harshavardhan-Resume.txt"
+  },
+  "stats": [
+    { "label": "Problems Solved", "value": "300+" },
+    { "label": "Best ROC-AUC", "value": "0.814" },
+    { "label": "Projects Shipped", "value": "4" },
+    { "label": "CGPA", "value": "7.68" }
+  ],
+  "links": [
+    { "label": "GitHub", "href": "https://github.com/J-harshavardhan", "value": "github.com/J-harshavardhan" },
+    { "label": "LinkedIn", "href": "https://linkedin.com/in/jagannati-harshavardhan/", "value": "linkedin.com/in/jagannati-harshavardhan" },
+    { "label": "LeetCode", "href": "https://leetcode.com/u/JAGANNATI_HARSHAVARDHAN", "value": "leetcode.com/u/JAGANNATI_HARSHAVARDHAN" },
+    { "label": "GeeksforGeeks", "href": "https://geeksforgeeks.org/profile/jharshavardhan", "value": "geeksforgeeks.org/profile/jharshavardhan" }
+  ],
+  "projects": [
+    {
+      "slug": "medical-report-summarizer",
+      "name": "Medical Report Summarizer",
+      "tag": "Final Year Project",
+      "difficulty": "Hard",
+      "shortDescription": "AI tool that summarizes medical reports and flags hallucinations before response delivery.",
+      "fullDescription": "This project combines LLM prompting, response validation, and a user-friendly interface for medical report summarization. I designed safeguards to reduce hallucinated outputs and emphasized reliability in high-stakes content.",
+      "stack": ["FastAPI", "React", "Vite", "Groq (Llama)"],
+      "highlights": [
+        "Built end-to-end system across backend inference and frontend experience",
+        "Added hallucination checks for safer medical AI responses",
+        "Deployed and tested in production-like usage scenarios"
+      ],
+      "outcomes": [
+        "Improved response trust with explicit hallucination control",
+        "Demonstrated real-world GenAI product delivery skills"
+      ],
+      "images": [
+        { "src": "/images/projects/medical-1.svg", "alt": "Medical project overview screen", "caption": "Project overview and architecture concept" },
+        { "src": "/images/projects/medical-2.svg", "alt": "Medical project summary validation view", "caption": "Summary and reliability marker interface" }
+      ]
+    },
+    {
+      "slug": "ai-feasta",
+      "name": "AI-FEASTA",
+      "tag": "GenAI Web App",
+      "difficulty": "Medium",
+      "shortDescription": "Unified chatbot and image generation workflow inside one application.",
+      "fullDescription": "AI-FEASTA is a multi-feature GenAI platform where users can switch between conversational and visual generation tasks. I focused on API orchestration, latency-aware UX, and session continuity.",
+      "stack": ["React", "FastAPI", "Claude API", "Gemini API", "Firebase"],
+      "highlights": [
+        "Integrated multiple model providers in a single interface",
+        "Designed smooth UX for switching between chat and image outputs",
+        "Implemented authentication and persistent storage using Firebase"
+      ],
+      "outcomes": [
+        "Reduced user friction by consolidating AI workflows",
+        "Strengthened practical experience with multi-model systems"
+      ],
+      "images": [
+        { "src": "/images/projects/feasta-1.svg", "alt": "AI-FEASTA overview banner", "caption": "Unified application overview" },
+        { "src": "/images/projects/feasta-2.svg", "alt": "AI-FEASTA dual panel layout", "caption": "Dual panel workflow for chat and image generation" }
+      ]
+    },
+    {
+      "slug": "churnguard",
+      "name": "ChurnGuard",
+      "tag": "ML Pipeline",
+      "difficulty": "Medium",
+      "shortDescription": "Telecom churn prediction pipeline with preprocessing and evaluation.",
+      "fullDescription": "ChurnGuard covers a full ML lifecycle from raw data cleaning to model evaluation. I built robust preprocessing pipelines, compared multiple baselines, and tuned features for measurable performance gains.",
+      "stack": ["Python", "Scikit-learn", "Pandas"],
+      "highlights": [
+        "Implemented full preprocessing and model training workflow",
+        "Compared classification approaches with ROC-AUC based evaluation",
+        "Documented pipeline for repeatability and handoff"
+      ],
+      "outcomes": ["Reached ROC-AUC 0.814", "Built reusable patterns for future ML projects"],
+      "images": [
+        { "src": "/images/projects/churn-1.svg", "alt": "ChurnGuard summary card", "caption": "Model objective and performance summary" },
+        { "src": "/images/projects/churn-2.svg", "alt": "ChurnGuard evaluation chart", "caption": "Model evaluation trend visualization" }
+      ]
+    },
+    {
+      "slug": "trendpulse",
+      "name": "TrendPulse",
+      "tag": "ETL Pipeline",
+      "difficulty": "Easy",
+      "shortDescription": "Reddit ETL pipeline for trend extraction and downstream analysis.",
+      "fullDescription": "TrendPulse ingests and transforms Reddit discussions into structured datasets for trend analysis. The focus was consistency, data cleanliness, and basic automation for recurring ingestion.",
+      "stack": ["Python", "Reddit API", "ETL"],
+      "highlights": [
+        "Built extract-transform-load flow for social data",
+        "Normalized post/comment content for easier analytics",
+        "Prepared outputs for dashboard and reporting consumption"
+      ],
+      "outcomes": [
+        "Enabled fast experimentation for trend-based insights",
+        "Improved data engineering fundamentals for ML use cases"
+      ],
+      "images": [
+        { "src": "/images/projects/trend-1.svg", "alt": "TrendPulse pipeline overview", "caption": "ETL pipeline overview" },
+        { "src": "/images/projects/trend-2.svg", "alt": "TrendPulse transformed data view", "caption": "Structured output ready for analysis" }
+      ]
+    }
+  ],
+  "skillGroups": [
+    {
+      "id": "languages",
+      "title": "Programming Languages",
+      "summary": "Balanced across backend, scripting, and web development work.",
+      "details": "I use Java for DSA and problem-solving depth, Python for ML and backend development, JavaScript for frontend interaction, and SQL for data retrieval and reporting.",
+      "items": ["Java", "Python", "JavaScript", "SQL"]
+    },
+    {
+      "id": "ai-llm",
+      "title": "AI and LLM Engineering",
+      "summary": "Hands-on integration of multiple model APIs and prompt strategies.",
+      "details": "I have worked with Groq, Claude, and Gemini APIs in real projects. I focus on prompt design, evaluation-driven iteration, and reducing hallucinated responses for dependable outputs.",
+      "items": ["Groq API", "Claude API", "Gemini API", "Prompt Engineering", "Hallucination Detection"]
+    },
+    {
+      "id": "frameworks",
+      "title": "Frameworks and Platforms",
+      "summary": "Full-stack implementation with modern frontend and backend tooling.",
+      "details": "My common stack is React and Vite on the frontend with FastAPI services in the backend. I use Firebase where authentication and managed storage are needed.",
+      "items": ["React", "Vite", "FastAPI", "Firebase"]
+    },
+    {
+      "id": "ml-data",
+      "title": "ML and Data Skills",
+      "summary": "Applied model-building with disciplined preprocessing and evaluation.",
+      "details": "I work with Pandas for data handling, Scikit-learn for modeling, and EDA workflows to understand feature behavior. I also built collaborative filtering and churn prediction pipelines.",
+      "items": ["Pandas", "Scikit-learn", "EDA", "Collaborative Filtering"]
+    },
+    {
+      "id": "tools",
+      "title": "Tools and Delivery",
+      "summary": "Versioned, testable, and deployment-ready development practices.",
+      "details": "I use Git and GitHub for source control, Postman for API testing, and Vercel for deployment workflows. Tooling is chosen to maintain speed and reliability.",
+      "items": ["Git", "GitHub", "Vercel", "Postman"]
+    }
+  ],
+  "languageBar": [
+    { "name": "Python", "pct": 34 },
+    { "name": "Java", "pct": 26 },
+    { "name": "JavaScript", "pct": 22 },
+    { "name": "SQL", "pct": 10 },
+    { "name": "Other", "pct": 8 }
+  ],
+  "achievements": [
+    {
+      "id": "internship",
+      "title": "Generative AI Engineer Intern",
+      "organization": "Blackbucks Education",
+      "period": "2026 - Present",
+      "details": "Building and shipping AI features for practical educational use-cases, including production-integrated summarization tools.",
+      "impact": [
+        "Delivered real product features under timelines",
+        "Applied LLM reliability patterns in production contexts"
+      ]
+    },
+    {
+      "id": "campus-mantri",
+      "title": "Campus Mantri",
+      "organization": "GeeksforGeeks",
+      "period": "2025 - Present",
+      "details": "Led campus campaigns for GATE and SkillUp while helping students discover DSA and interview preparation pathways.",
+      "impact": [
+        "Completed assigned campus milestones",
+        "Improved peer engagement in technical learning tracks"
+      ]
+    },
+    {
+      "id": "certification-iit-patna",
+      "title": "AI and ML Certificate Program",
+      "organization": "IIT Patna x Masai School",
+      "period": "2025",
+      "details": "Completed applied coursework in EDA, preprocessing, model building, and collaborative filtering systems.",
+      "impact": [
+        "Built stronger foundations in practical ML",
+        "Converted theory into deployable project workflows"
+      ]
+    },
+    {
+      "id": "bosch-leap",
+      "title": "Automotive Service Technician Certification",
+      "organization": "Bosch India Foundation",
+      "period": "2024",
+      "details": "Earned LEAP certification emphasizing technical process, diagnostics, and disciplined execution.",
+      "impact": [
+        "Developed strong process-oriented mindset",
+        "Improved analytical troubleshooting skills"
+      ]
+    }
+  ],
+  "suggestedPrompts": [
+    "What makes Harsha a strong AI intern?",
+    "Which project best shows production skills?",
+    "How strong is his DSA profile?",
+    "What stack does he use most often?"
+  ],
+  "resume": {
+    "title": "Resume Overview",
+    "summary": "Focused on AI product delivery, practical ML implementation, and full-stack engineering foundations.",
+    "sections": [
+      {
+        "heading": "Core Strengths",
+        "items": [
+          "Production-oriented GenAI development",
+          "FastAPI + React full-stack execution",
+          "Model evaluation and reliability patterns"
+        ]
+      },
+      {
+        "heading": "Focus Areas",
+        "items": [
+          "Hallucination reduction and response quality",
+          "Data and ML pipeline design",
+          "Scalable project architecture"
+        ]
+      }
+    ]
+  }
+}

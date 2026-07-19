@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#111827"/>
+  <rect x="70" y="90" width="510" height="520" rx="20" fill="#1f2937"/>
+  <rect x="620" y="90" width="510" height="520" rx="20" fill="#1f2937"/>
+  <text x="120" y="150" fill="#f9fafb" font-size="30" font-family="Arial, sans-serif">Chat Panel</text>
+  <text x="670" y="150" fill="#f9fafb" font-size="30" font-family="Arial, sans-serif">Image Panel</text>
+</svg>

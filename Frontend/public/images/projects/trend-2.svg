@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#431407"/>
+  <rect x="90" y="100" width="1020" height="500" rx="18" fill="#7c2d12"/>
+  <rect x="130" y="150" width="940" height="54" rx="9" fill="#fb923c"/>
+  <rect x="130" y="235" width="940" height="32" rx="8" fill="#fdba74"/>
+  <rect x="130" y="286" width="820" height="32" rx="8" fill="#fdba74"/>
+  <rect x="130" y="337" width="880" height="32" rx="8" fill="#fdba74"/>
+  <text x="130" y="420" fill="#ffedd5" font-size="28" font-family="Arial, sans-serif">Structured posts and comments ready for analysis</text>
+</svg>

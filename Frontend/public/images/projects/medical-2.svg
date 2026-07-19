@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#0f172a"/>
+  <rect x="70" y="70" width="1060" height="560" rx="22" fill="#1e293b"/>
+  <rect x="120" y="140" width="420" height="36" rx="8" fill="#0891b2"/>
+  <rect x="120" y="205" width="930" height="20" rx="6" fill="#475569"/>
+  <rect x="120" y="242" width="780" height="20" rx="6" fill="#475569"/>
+  <rect x="120" y="279" width="860" height="20" rx="6" fill="#475569"/>
+  <text x="120" y="360" fill="#e2e8f0" font-size="30" font-family="Arial, sans-serif">Confidence and risk markers displayed with summary output</text>
+</svg>
