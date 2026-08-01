@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 const PortfolioDataContext = createContext(null);
 const STORAGE_KEY = "portfolio-admin-content-v1";
@@ -59,7 +59,7 @@ export function PortfolioDataProvider({ children }) {
     return published;
   }, [fetchPublishedData]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     let mounted = true;
 
     async function load() {

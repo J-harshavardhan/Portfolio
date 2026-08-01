@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import './ElectricBorder.css';
 
 const ElectricBorder = ({
@@ -127,7 +127,7 @@ const ElectricBorder = ({
     [getCornerPoint]
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;

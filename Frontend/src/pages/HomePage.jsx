@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ArrowUpRight, Download, ExternalLink, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import AskAI from "../components/AskAI";
@@ -13,7 +13,7 @@ export default function HomePage() {
   const [resumeError, setResumeError] = useState("");
   const [brandColor, setBrandColor] = useState("#0f8b8d");
 
-  useEffect(() => {
+  React.useEffect(() => {
     const computed = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim();
     if (computed) {
       setBrandColor(computed);
