@@ -1,18 +1,38 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ArrowUpRight, Download, ExternalLink, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import AskAI from "../components/AskAI";
-import { AnimatedSectionHeading, AnimatedStatTile, InteractiveCard, MagneticButton, useMotionPreferences } from "../components/InteractiveEffects";
+import ElectricBorder from "../components/ElectricBorder/ElectricBorder";
+import { AnimatedSectionHeading, AnimatedStatTile, InteractiveCard, MagneticButton } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { downloadResumePdf } from "../lib/resumePdf";
+import { useMotionPreferences } from "../hooks/useMotionPreferences";
 
-const HeroBackground3D = lazy(() => import("../components/HeroBackground3D"));
+const Orb = lazy(() => import("../components/Orb/Orb"));
 
 export default function HomePage() {
   const { data, loading, error } = usePortfolioData();
   const { prefersReducedMotion, isMobile } = useMotionPreferences();
   const [resumeBusy, setResumeBusy] = useState(false);
   const [resumeError, setResumeError] = useState("");
+  const [brandColor, setBrandColor] = useState("#0f8b8d");
+  const [orbHue, setOrbHue] = useState(170);
+  const [supportsWebGL, setSupportsWebGL] = useState(true);
+
+  useEffect(() => {
+    const computed = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim();
+    if (computed) {
+      setBrandColor(computed);
+    }
+  }, []);
+
+  useEffect(() => {
+    setOrbHue(170);
+  }, []);
+
+  useEffect(() => {
+    setSupportsWebGL(typeof window !== "undefined" && typeof window.WebGLRenderingContext !== "undefined");
+  }, []);
 
   if (loading) {
     return (
@@ -47,14 +67,39 @@ export default function HomePage() {
   return (
     <>
       <section className="hero shell">
+        <div className="hero-background-layer" aria-hidden="true">
+          {!prefersReducedMotion && !isMobile && supportsWebGL ? (
+            <Suspense fallback={<div className="hero-orb-fallback" />}>
+              <Orb
+                hue={orbHue}
+                hoverIntensity={0.3}
+                rotateOnHover={true}
+                forceHoverState={false}
+                backgroundColor="#0a0a0a"
+              />
+            </Suspense>
+          ) : (
+            <div className="hero-orb-fallback" />
+          )}
+          <div className="hero-background-overlay" />
+        </div>
         <div className="hero-copy">
           <p className="hero-kicker">{profile.role}</p>
           <h1>{profile.tagline}</h1>
           <p className="hero-text">{profile.summary}</p>
           <div className="hero-actions">
-            <MagneticButton to="/projects" className="btn-primary">
-              Explore Projects <ArrowUpRight size={15} />
-            </MagneticButton>
+            <ElectricBorder
+              color={brandColor}
+              speed={1.4}
+              chaos={0.09}
+              borderRadius={999}
+              className="electric-border-cta"
+              style={{ display: "inline-block" }}
+            >
+              <MagneticButton to="/projects" className="btn-primary">
+                Explore Projects <ArrowUpRight size={15} />
+              </MagneticButton>
+            </ElectricBorder>
             <MagneticButton to="/achievements" className="btn-ghost">
               See Achievements
             </MagneticButton>
@@ -66,16 +111,7 @@ export default function HomePage() {
         </div>
 
         <aside className="hero-panel profile-panel">
-          <div className="hero-visual">
-            {!prefersReducedMotion && !isMobile ? (
-              <Suspense fallback={<div className="hero-3d-fallback" />}>
-                <HeroBackground3D />
-              </Suspense>
-            ) : (
-              <div className="hero-3d-fallback" />
-            )}
-            <img src={profile.photo} alt="J. Harshavardhan profile" className="profile-photo" />
-          </div>
+          <img src={profile.photo} alt="J. Harshavardhan profile" className="profile-photo" />
           <p className="panel-title">{profile.name}</p>
           <p className="panel-note">{profile.location}</p>
           <a className="hero-mail" href={`mailto:${profile.email}`}>
@@ -86,7 +122,17 @@ export default function HomePage() {
 
       <section className="shell stats-grid" aria-label="Highlights">
         {stats.map((s) => (
-          <AnimatedStatTile key={s.label} label={s.label} value={s.value} />
+          <ElectricBorder
+            key={s.label}
+            color={brandColor}
+            speed={1}
+            chaos={0.09}
+            borderRadius={18}
+            className="electric-border-stat"
+            style={{ width: "100%" }}
+          >
+            <AnimatedStatTile label={s.label} value={s.value} />
+          </ElectricBorder>
         ))}
       </section>
 

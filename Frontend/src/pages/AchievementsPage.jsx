@@ -8,6 +8,14 @@ export default function AchievementsPage() {
   const { data, loading, error } = usePortfolioData();
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { achievements } = data;
+  const totalPages = Math.max(1, Math.ceil(achievements.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const visibleAchievements = useMemo(
+    () => achievements.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [achievements, safePage]
+  );
+
   if (loading) {
     return (
       <section className="shell section visible page-intro-space">
@@ -23,14 +31,6 @@ export default function AchievementsPage() {
       </section>
     );
   }
-
-  const { achievements } = data;
-  const totalPages = Math.max(1, Math.ceil(achievements.length / PAGE_SIZE));
-  const safePage = Math.min(currentPage, totalPages);
-  const visibleAchievements = useMemo(
-    () => achievements.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
-    [achievements, safePage]
-  );
 
   return (
     <section className="shell section visible page-intro-space">

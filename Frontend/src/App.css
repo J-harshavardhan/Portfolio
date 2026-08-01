@@ -166,6 +166,39 @@ p {
   padding-top: 6.25rem;
   display: grid;
   gap: 1.5rem;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero-background-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-background-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(11, 18, 32, 0.55), rgba(11, 18, 32, 0.22)),
+    radial-gradient(circle at 20% 20%, rgba(15, 139, 141, 0.18), transparent 38%),
+    radial-gradient(circle at 80% 30%, rgba(15, 139, 141, 0.14), transparent 34%);
+}
+
+.hero-orb-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(20, 184, 166, 0.28), transparent 26%),
+    radial-gradient(circle at 70% 40%, rgba(20, 184, 166, 0.18), transparent 30%),
+    radial-gradient(circle at 50% 80%, rgba(8, 15, 28, 0.65), transparent 42%),
+    linear-gradient(180deg, rgba(8, 15, 28, 0.92), rgba(8, 15, 28, 0.68));
 }
 
 .hero-copy {
@@ -174,6 +207,8 @@ p {
   border-radius: 28px;
   padding: clamp(1.35rem, 2.6vw, 2.1rem);
   box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 1;
 }
 
 .hero-kicker {
@@ -276,6 +311,7 @@ p {
   padding: clamp(1.2rem, 2.6vw, 1.8rem);
   box-shadow: var(--shadow-sm);
   position: relative;
+  z-index: 1;
   overflow: hidden;
 }
 
@@ -285,35 +321,6 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.hero-visual {
-  position: relative;
-  width: 100%;
-  min-height: 290px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 1rem;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.hero-3d-shell,
-.hero-3d-fallback {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-}
-
-.hero-3d-shell {
-  opacity: 0.9;
-}
-
-.hero-3d-fallback {
-  background:
-    radial-gradient(circle at 18% 18%, rgba(126, 233, 231, 0.26), transparent 30%),
-    radial-gradient(circle at 80% 78%, rgba(8, 17, 29, 0.42), transparent 48%),
-    linear-gradient(145deg, rgba(8, 17, 29, 0.82), rgba(15, 139, 141, 0.22));
 }
 
 .profile-photo {
@@ -1151,6 +1158,12 @@ p {
   color: var(--hard);
   font-size: 0.88rem;
   font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-background-layer {
+    display: none;
+  }
 }
 
 .skill-pills span,

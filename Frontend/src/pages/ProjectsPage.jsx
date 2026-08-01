@@ -12,6 +12,24 @@ export default function ProjectsPage() {
   const [difficulty, setDifficulty] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { projects } = data;
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const term = searchTerm.trim().toLowerCase();
+      const matchesText =
+        !term ||
+        project.name.toLowerCase().includes(term) ||
+        project.tag.toLowerCase().includes(term) ||
+        project.shortDescription.toLowerCase().includes(term) ||
+        project.stack.some((s) => s.toLowerCase().includes(term));
+      const matchesDifficulty = difficulty === "All" || project.difficulty === difficulty;
+      return matchesText && matchesDifficulty;
+    });
+  }, [projects, searchTerm, difficulty]);
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const visibleProjects = filteredProjects.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
   if (loading) {
     return (
       <section className="shell section visible page-intro-space">
@@ -27,25 +45,6 @@ export default function ProjectsPage() {
       </section>
     );
   }
-
-  const { projects } = data;
-  const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
-      const term = searchTerm.trim().toLowerCase();
-      const matchesText =
-        !term ||
-        project.name.toLowerCase().includes(term) ||
-        project.tag.toLowerCase().includes(term) ||
-        project.shortDescription.toLowerCase().includes(term) ||
-        project.stack.some((s) => s.toLowerCase().includes(term));
-      const matchesDifficulty = difficulty === "All" || project.difficulty === difficulty;
-      return matchesText && matchesDifficulty;
-    });
-  }, [projects, searchTerm, difficulty]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PAGE_SIZE));
-  const safePage = Math.min(currentPage, totalPages);
-  const visibleProjects = filteredProjects.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
   return (
     <section className="shell section visible page-intro-space">
