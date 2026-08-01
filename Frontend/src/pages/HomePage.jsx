@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowUpRight, Download, ExternalLink, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import AskAI from "../components/AskAI";
@@ -6,32 +6,18 @@ import ElectricBorder from "../components/ElectricBorder/ElectricBorder";
 import { AnimatedSectionHeading, AnimatedStatTile, InteractiveCard, MagneticButton } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { downloadResumePdf } from "../lib/resumePdf";
-import { useMotionPreferences } from "../hooks/useMotionPreferences";
-
-const Orb = lazy(() => import("../components/Orb/Orb"));
 
 export default function HomePage() {
   const { data, loading, error } = usePortfolioData();
-  const { prefersReducedMotion, isMobile } = useMotionPreferences();
   const [resumeBusy, setResumeBusy] = useState(false);
   const [resumeError, setResumeError] = useState("");
   const [brandColor, setBrandColor] = useState("#0f8b8d");
-  const [orbHue, setOrbHue] = useState(170);
-  const [supportsWebGL, setSupportsWebGL] = useState(true);
 
   useEffect(() => {
     const computed = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim();
     if (computed) {
       setBrandColor(computed);
     }
-  }, []);
-
-  useEffect(() => {
-    setOrbHue(170);
-  }, []);
-
-  useEffect(() => {
-    setSupportsWebGL(typeof window !== "undefined" && typeof window.WebGLRenderingContext !== "undefined");
   }, []);
 
   if (loading) {
@@ -68,19 +54,7 @@ export default function HomePage() {
     <>
       <section className="hero shell">
         <div className="hero-background-layer" aria-hidden="true">
-          {!prefersReducedMotion && !isMobile && supportsWebGL ? (
-            <Suspense fallback={<div className="hero-orb-fallback" />}>
-              <Orb
-                hue={orbHue}
-                hoverIntensity={0.3}
-                rotateOnHover={true}
-                forceHoverState={false}
-                backgroundColor="#0a0a0a"
-              />
-            </Suspense>
-          ) : (
-            <div className="hero-orb-fallback" />
-          )}
+          <div className="hero-orb-fallback" />
           <div className="hero-background-overlay" />
         </div>
         <div className="hero-copy">
