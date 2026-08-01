@@ -1,11 +1,18 @@
-import React from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { ArrowUpRight, Download, ExternalLink, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import AskAI from "../components/AskAI";
+import { AnimatedSectionHeading, AnimatedStatTile, InteractiveCard, MagneticButton, useMotionPreferences } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import { downloadResumePdf } from "../lib/resumePdf";
+
+const HeroBackground3D = lazy(() => import("../components/HeroBackground3D"));
 
 export default function HomePage() {
   const { data, loading, error } = usePortfolioData();
+  const { prefersReducedMotion, isMobile } = useMotionPreferences();
+  const [resumeBusy, setResumeBusy] = useState(false);
+  const [resumeError, setResumeError] = useState("");
 
   if (loading) {
     return (
@@ -25,6 +32,18 @@ export default function HomePage() {
 
   const { profile, stats, projects, links, suggestedPrompts } = data;
 
+  const handleResumeDownload = async () => {
+    try {
+      setResumeBusy(true);
+      setResumeError("");
+      await downloadResumePdf(data);
+    } catch (downloadError) {
+      setResumeError(downloadError.message || "Could not generate the PDF.");
+    } finally {
+      setResumeBusy(false);
+    }
+  };
+
   return (
     <>
       <section className="hero shell">
@@ -33,20 +52,30 @@ export default function HomePage() {
           <h1>{profile.tagline}</h1>
           <p className="hero-text">{profile.summary}</p>
           <div className="hero-actions">
-            <Link to="/projects" className="btn btn-primary">
+            <MagneticButton to="/projects" className="btn-primary">
               Explore Projects <ArrowUpRight size={15} />
-            </Link>
-            <Link to="/achievements" className="btn btn-ghost">
+            </MagneticButton>
+            <MagneticButton to="/achievements" className="btn-ghost">
               See Achievements
-            </Link>
-            <a href={profile.resumeFile} download className="btn btn-ghost">
-              <Download size={15} /> Download Resume
-            </a>
+            </MagneticButton>
+            <MagneticButton className="btn-ghost" onClick={handleResumeDownload} disabled={resumeBusy}>
+              <Download size={15} /> {resumeBusy ? "Generating PDF..." : "Download Resume"}
+            </MagneticButton>
           </div>
+          {resumeError ? <p className="resume-error top-gap">{resumeError}</p> : null}
         </div>
 
         <aside className="hero-panel profile-panel">
-          <img src={profile.photo} alt="J. Harshavardhan profile" className="profile-photo" />
+          <div className="hero-visual">
+            {!prefersReducedMotion && !isMobile ? (
+              <Suspense fallback={<div className="hero-3d-fallback" />}>
+                <HeroBackground3D />
+              </Suspense>
+            ) : (
+              <div className="hero-3d-fallback" />
+            )}
+            <img src={profile.photo} alt="J. Harshavardhan profile" className="profile-photo" />
+          </div>
           <p className="panel-title">{profile.name}</p>
           <p className="panel-note">{profile.location}</p>
           <a className="hero-mail" href={`mailto:${profile.email}`}>
@@ -57,21 +86,15 @@ export default function HomePage() {
 
       <section className="shell stats-grid" aria-label="Highlights">
         {stats.map((s) => (
-          <article key={s.label} className="stat-tile">
-            <p className="stat-value">{s.value}</p>
-            <p className="stat-label">{s.label}</p>
-          </article>
+          <AnimatedStatTile key={s.label} label={s.label} value={s.value} />
         ))}
       </section>
 
       <section className="shell section visible">
-        <div className="section-head">
-          <p className="section-kicker">Quick Access</p>
-          <h2>Full Details By Section</h2>
-        </div>
+        <AnimatedSectionHeading kicker="Quick Access" title="Full Details By Section" />
         <div className="project-grid">
           {projects.map((project) => (
-            <article key={project.slug} className="project-card">
+            <InteractiveCard key={project.slug} className="project-card" as="article">
               <div className="project-head">
                 <p className="project-name">{project.name}</p>
                 <span className={`badge ${project.difficulty.toLowerCase()}`}>{project.difficulty}</span>
@@ -81,16 +104,13 @@ export default function HomePage() {
               <Link to={`/projects/${project.slug}`} className="inline-action">
                 Open Full Project Details <ArrowUpRight size={14} />
               </Link>
-            </article>
+            </InteractiveCard>
           ))}
         </div>
       </section>
 
       <section className="shell section visible">
-        <div className="section-head">
-          <p className="section-kicker">Links</p>
-          <h2>Profile Platforms</h2>
-        </div>
+        <AnimatedSectionHeading kicker="Links" title="Profile Platforms" />
         <div className="contact-links">
           {links.map((item) => (
             <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">
@@ -104,10 +124,7 @@ export default function HomePage() {
       </section>
 
       <section className="shell section visible">
-        <div className="section-head">
-          <p className="section-kicker">Assistant</p>
-          <h2>Ask For More Details</h2>
-        </div>
+        <AnimatedSectionHeading kicker="Assistant" title="Ask For More Details" />
         <AskAI prompts={suggestedPrompts} />
       </section>
     </>

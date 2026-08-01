@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -14,6 +15,7 @@ const navItems = [
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <div className="page-wrap">
@@ -25,12 +27,11 @@ export default function Layout() {
 
           <nav className="nav-links" aria-label="Main">
             {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                {item.label}
+              <NavLink key={item.to} to={item.to} end={item.to === "/"} className="nav-item">
+                <span className="nav-label">{item.label}</span>
+                {(item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to)) ? (
+                  <motion.span className="nav-indicator" layoutId="nav-indicator" />
+                ) : null}
               </NavLink>
             ))}
           </nav>

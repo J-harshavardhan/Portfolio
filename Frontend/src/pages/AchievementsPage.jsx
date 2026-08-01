@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import { AnimatedSectionHeading, InteractiveCard } from "../components/InteractiveEffects";
 
 const PAGE_SIZE = 4;
 
@@ -33,17 +34,19 @@ export default function AchievementsPage() {
 
   return (
     <section className="shell section visible page-intro-space">
-      <div className="section-head">
-        <p className="section-kicker">Achievements</p>
-        <h2>Experience and Milestones</h2>
-      </div>
+      <AnimatedSectionHeading kicker="Achievements" title="Experience and Milestones" />
       <p className="about-copy">
         Full details of internships, certifications, and leadership milestones with specific impact points.
       </p>
 
       <div className="timeline top-gap">
-        {visibleAchievements.map((item) => (
-          <article key={item.id} className="time-item detail-card">
+        {visibleAchievements.map((item, index) => (
+          <InteractiveCard
+            key={item.id}
+            className="time-item detail-card"
+            as="article"
+            transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.08 }}
+          >
             <div className="time-head">
               <h3>{item.title}</h3>
               <p>{item.period}</p>
@@ -58,7 +61,7 @@ export default function AchievementsPage() {
                 ))}
               </ul>
             </div>
-          </article>
+          </InteractiveCard>
         ))}
       </div>
 

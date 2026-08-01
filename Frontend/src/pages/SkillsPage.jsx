@@ -1,4 +1,5 @@
 import React from "react";
+import { AnimatedSectionHeading, InteractiveCard } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 
 export default function SkillsPage() {
@@ -24,10 +25,7 @@ export default function SkillsPage() {
 
   return (
     <section className="shell section visible page-intro-space">
-      <div className="section-head">
-        <p className="section-kicker">Skills</p>
-        <h2>Skill Breakdown</h2>
-      </div>
+      <AnimatedSectionHeading kicker="Skills" title="Skill Breakdown" />
       <p className="about-copy">
         This section gives full details of current capabilities, where each skill group is applied, and
         how these skills contribute to project delivery.
@@ -49,8 +47,13 @@ export default function SkillsPage() {
       </div>
 
       <div className="skills-grid top-gap">
-        {skillGroups.map((group) => (
-          <article key={group.id} className="skill-card detail-card">
+        {skillGroups.map((group, index) => (
+          <InteractiveCard
+            key={group.id}
+            className="skill-card detail-card"
+            as="article"
+            transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.08 }}
+          >
             <h3>{group.title}</h3>
             <p className="skill-summary">{group.summary}</p>
             <p className="project-desc">{group.details}</p>
@@ -59,7 +62,7 @@ export default function SkillsPage() {
                 <span key={item}>{item}</span>
               ))}
             </div>
-          </article>
+          </InteractiveCard>
         ))}
       </div>
     </section>

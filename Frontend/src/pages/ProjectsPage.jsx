@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AnimatedSectionHeading, InteractiveCard } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 
 const PAGE_SIZE = 4;
@@ -48,10 +49,7 @@ export default function ProjectsPage() {
 
   return (
     <section className="shell section visible page-intro-space">
-      <div className="section-head">
-        <p className="section-kicker">Projects</p>
-        <h2>All Projects</h2>
-      </div>
+      <AnimatedSectionHeading kicker="Projects" title="All Projects" />
       <p className="about-copy">
         This page lists all portfolio projects. Open any card to view complete details including goals,
         technical choices, implementation highlights, and outcomes.
@@ -86,8 +84,13 @@ export default function ProjectsPage() {
       <p className="results-note top-gap">Showing {filteredProjects.length} project(s)</p>
 
       <div className="project-grid top-gap">
-        {visibleProjects.map((project) => (
-          <article key={project.slug} className="project-card">
+        {visibleProjects.map((project, index) => (
+          <InteractiveCard
+            key={project.slug}
+            className="project-card"
+            as="article"
+            transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.06 }}
+          >
             <div className="project-head">
               <p className="project-name">{project.name}</p>
               <span className={`badge ${project.difficulty.toLowerCase()}`}>{project.difficulty}</span>
@@ -102,7 +105,7 @@ export default function ProjectsPage() {
             <Link to={`/projects/${project.slug}`} className="inline-action">
               Open Full Details <ArrowUpRight size={14} />
             </Link>
-          </article>
+          </InteractiveCard>
         ))}
       </div>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { AnimatedSectionHeading, InteractiveCard } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 
 export default function ProjectDetailPage() {
@@ -41,12 +42,9 @@ export default function ProjectDetailPage() {
 
   return (
     <section className="shell section visible page-intro-space">
-      <div className="section-head">
-        <p className="section-kicker">Project Details</p>
-        <h2>{project.name}</h2>
-      </div>
+      <AnimatedSectionHeading kicker="Project Details" title={project.name} />
 
-      <article className="detail-card">
+      <InteractiveCard className="detail-card" as="article">
         <p className="project-tag">{project.tag}</p>
         <p className="project-desc">{project.fullDescription}</p>
 
@@ -90,7 +88,7 @@ export default function ProjectDetailPage() {
             </div>
           </div>
         )}
-      </article>
+      </InteractiveCard>
 
       <Link to="/projects" className="inline-action top-gap">
         <ArrowLeft size={14} /> Back to Projects

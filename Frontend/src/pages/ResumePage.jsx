@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Download } from "lucide-react";
+import { AnimatedSectionHeading, MagneticButton } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import { downloadResumePdf } from "../lib/resumePdf";
 
 export default function ResumePage() {
   const { data, loading, error } = usePortfolioData();
+  const [resumeBusy, setResumeBusy] = useState(false);
+  const [resumeError, setResumeError] = useState("");
+
+  const handleDownload = async () => {
+    try {
+      setResumeBusy(true);
+      setResumeError("");
+      await downloadResumePdf(data);
+    } catch (downloadError) {
+      setResumeError(downloadError.message || "Could not generate the PDF.");
+    } finally {
+      setResumeBusy(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -23,17 +39,16 @@ export default function ResumePage() {
 
   return (
     <section className="shell section visible page-intro-space">
-      <div className="section-head">
-        <p className="section-kicker">Resume</p>
-        <h2>{data.resume.title}</h2>
-      </div>
+      <AnimatedSectionHeading kicker="Resume" title={data.resume.title} />
 
       <article className="detail-card">
         <p className="project-desc">{data.resume.summary}</p>
 
-        <a href={data.profile.resumeFile} download className="btn btn-primary top-gap">
-          <Download size={15} /> Download Resume
-        </a>
+        <MagneticButton className="btn-primary top-gap" onClick={handleDownload} disabled={resumeBusy}>
+          <Download size={15} /> {resumeBusy ? "Generating PDF..." : "Download Resume"}
+        </MagneticButton>
+
+        {resumeError ? <p className="resume-error top-gap">{resumeError}</p> : null}
 
         <div className="resume-grid top-gap">
           {data.resume.sections.map((section) => (
