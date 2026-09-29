@@ -75,6 +75,15 @@ npm run dev
 
 Then visit `http://localhost:5173` - the chat should work!
 
+The frontend proxies local `/api/chat` requests to `http://127.0.0.1:8000`, so start the backend before testing the assistant:
+
+```bash
+cd Backend
+python -m uvicorn main:app --reload --port 8000
+```
+
+If the assistant is unavailable in production, verify `GROQ_API_KEY` is configured in the Vercel project that serves `Frontend` and redeploy it. The Vercel API route is same-origin and does not require `VITE_API_URL` in production.
+
 ## Files Updated
 
 - `Frontend/src/App.jsx` - Now uses `VITE_API_URL` environment variable

@@ -1,7 +1,6 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 const PortfolioDataContext = createContext(null);
-const STORAGE_KEY = "portfolio-admin-content-v1";
 
 const emptyData = {
   profile: {
@@ -20,7 +19,6 @@ const emptyData = {
   skillGroups: [],
   languageBar: [],
   achievements: [],
-  suggestedPrompts: [],
   resume: { title: "", summary: "", sections: [] },
 };
 
@@ -38,27 +36,6 @@ export function PortfolioDataProvider({ children }) {
     return { ...emptyData, ...json };
   }, []);
 
-  const updateDataFromJson = useCallback((jsonText, persist = true) => {
-    const parsed = JSON.parse(jsonText);
-    const normalized = { ...emptyData, ...parsed };
-    setData(normalized);
-    setError("");
-
-    if (persist) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized, null, 2));
-    }
-
-    return normalized;
-  }, []);
-
-  const resetToPublished = useCallback(async () => {
-    const published = await fetchPublishedData();
-    localStorage.removeItem(STORAGE_KEY);
-    setData(published);
-    setError("");
-    return published;
-  }, [fetchPublishedData]);
-
   React.useEffect(() => {
     let mounted = true;
 
@@ -66,16 +43,6 @@ export function PortfolioDataProvider({ children }) {
       setLoading(true);
       setError("");
       try {
-        const localValue = localStorage.getItem(STORAGE_KEY);
-        if (localValue) {
-          const localJson = JSON.parse(localValue);
-          if (mounted) {
-            setData({ ...emptyData, ...localJson });
-            setLoading(false);
-          }
-          return;
-        }
-
         const published = await fetchPublishedData();
         if (mounted) {
           setData(published);
@@ -97,12 +64,7 @@ export function PortfolioDataProvider({ children }) {
     };
   }, [fetchPublishedData]);
 
-  const dataJson = useMemo(() => JSON.stringify(data, null, 2), [data]);
-
-  const value = useMemo(
-    () => ({ data, loading, error, dataJson, updateDataFromJson, resetToPublished }),
-    [data, loading, error, dataJson, updateDataFromJson, resetToPublished]
-  );
+  const value = useMemo(() => ({ data, loading, error }), [data, loading, error]);
 
   return <PortfolioDataContext.Provider value={value}>{children}</PortfolioDataContext.Provider>;
 }

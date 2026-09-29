@@ -11,6 +11,8 @@ Projects: Medical Report Summarizer (FastAPI, React/Vite, Groq; summarizes medic
 His strengths are AI/ML, generative-AI applications, full-stack delivery, production deployment, competitive programming, and medical-AI hallucination detection. Answer questions about his projects, skills, experience, and fit for roles.`;
 
 export default async function handler(request, response) {
+  response.setHeader("Cache-Control", "no-store");
+
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
     return response.status(405).json({ error: "Method not allowed" });
@@ -22,7 +24,15 @@ export default async function handler(request, response) {
     });
   }
 
-  const messages = request.body?.messages;
+  let body = request.body;
+  if (typeof request.body === "string") {
+    try {
+      body = JSON.parse(request.body);
+    } catch {
+      return response.status(400).json({ error: "Request body must be valid JSON." });
+    }
+  }
+  const messages = body?.messages;
   if (!Array.isArray(messages) || messages.length === 0) {
     return response.status(400).json({ error: "A non-empty messages array is required." });
   }
@@ -31,6 +41,10 @@ export default async function handler(request, response) {
     .filter((message) => ["user", "assistant"].includes(message?.role) && typeof message.content === "string")
     .slice(-12)
     .map(({ role, content }) => ({ role, content: content.slice(0, 4000) }));
+
+  if (safeMessages.length === 0) {
+    return response.status(400).json({ error: "At least one valid user or assistant message is required." });
+  }
 
   try {
     const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {

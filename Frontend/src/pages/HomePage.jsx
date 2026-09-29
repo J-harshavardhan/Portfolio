@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { ArrowUpRight, Download, ExternalLink, Mail } from "lucide-react";
+import { ArrowUpRight, Download, ExternalLink, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import AskAI from "../components/AskAI";
-import ElectricBorder from "../components/ElectricBorder/ElectricBorder";
 import { AnimatedSectionHeading, AnimatedStatTile, InteractiveCard, MagneticButton } from "../components/InteractiveEffects";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { downloadResumePdf } from "../lib/resumePdf";
@@ -11,14 +10,6 @@ export default function HomePage() {
   const { data, loading, error } = usePortfolioData();
   const [resumeBusy, setResumeBusy] = useState(false);
   const [resumeError, setResumeError] = useState("");
-  const [brandColor, setBrandColor] = useState("#0f8b8d");
-
-  React.useEffect(() => {
-    const computed = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim();
-    if (computed) {
-      setBrandColor(computed);
-    }
-  }, []);
 
   if (loading) {
     return (
@@ -53,27 +44,15 @@ export default function HomePage() {
   return (
     <>
       <section className="hero shell">
-        <div className="hero-background-layer" aria-hidden="true">
-          <div className="hero-orb-fallback" />
-          <div className="hero-background-overlay" />
-        </div>
         <div className="hero-copy">
           <p className="hero-kicker">{profile.role}</p>
-          <h1>{profile.tagline}</h1>
+          <h1>Building useful AI products with <em>clarity.</em></h1>
           <p className="hero-text">{profile.summary}</p>
+          <div className="hero-meta"><span><MapPin size={14} /> {profile.location}</span><span className="status-dot">Available for conversations</span></div>
           <div className="hero-actions">
-            <ElectricBorder
-              color={brandColor}
-              speed={1.4}
-              chaos={0.09}
-              borderRadius={999}
-              className="electric-border-cta"
-              style={{ display: "inline-block" }}
-            >
-              <MagneticButton to="/projects" className="btn-primary">
-                Explore Projects <ArrowUpRight size={15} />
-              </MagneticButton>
-            </ElectricBorder>
+            <MagneticButton to="/projects" className="btn-primary">
+              Explore Projects <ArrowUpRight size={15} />
+            </MagneticButton>
             <MagneticButton to="/achievements" className="btn-ghost">
               See Achievements
             </MagneticButton>
@@ -84,10 +63,9 @@ export default function HomePage() {
           {resumeError ? <p className="resume-error top-gap">{resumeError}</p> : null}
         </div>
 
-        <aside className="hero-panel profile-panel">
+        <aside className="hero-panel profile-panel interactive-card">
           <img src={profile.photo} alt="J. Harshavardhan profile" className="profile-photo" />
-          <p className="panel-title">{profile.name}</p>
-          <p className="panel-note">{profile.location}</p>
+          <div className="profile-caption"><span className="eyebrow">Currently building</span><p className="panel-title">Reliable AI experiences</p></div>
           <a className="hero-mail" href={`mailto:${profile.email}`}>
             <Mail size={14} /> {profile.email}
           </a>
@@ -95,19 +73,7 @@ export default function HomePage() {
       </section>
 
       <section className="shell stats-grid" aria-label="Highlights">
-        {stats.map((s) => (
-          <ElectricBorder
-            key={s.label}
-            color={brandColor}
-            speed={1}
-            chaos={0.09}
-            borderRadius={18}
-            className="electric-border-stat"
-            style={{ width: "100%" }}
-          >
-            <AnimatedStatTile label={s.label} value={s.value} />
-          </ElectricBorder>
-        ))}
+        {stats.map((s) => <AnimatedStatTile key={s.label} label={s.label} value={s.value} />)}
       </section>
 
       <section className="shell section visible">

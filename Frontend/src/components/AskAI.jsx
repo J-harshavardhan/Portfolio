@@ -1,6 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Loader2, Send, Sparkles } from "lucide-react";
 
+const promptSuggestions = ["What makes Harsha a strong AI intern?", "Which project shows the most production thinking?", "What stack does he work with?"];
+
+function localAnswer(question) {
+  const normalized = question.toLowerCase();
+  if (normalized.includes("stack") || normalized.includes("technology")) {
+    return "Harsha works across Python, Java, JavaScript and SQL, with React, Vite and FastAPI for products, plus Groq, Claude, Gemini, Pandas and scikit-learn for AI and ML work.";
+  }
+  if (normalized.includes("project") || normalized.includes("production")) {
+    return "Medical Report Summarizer best shows production thinking: it combines FastAPI, React, Groq and hallucination checks for a high-stakes workflow. AI-FEASTA shows multi-model orchestration, while ChurnGuard reached 0.814 ROC-AUC.";
+  }
+  if (normalized.includes("intern") || normalized.includes("strong")) {
+    return "Harsha combines 300+ solved problems with hands-on GenAI delivery, backend fundamentals and reliability-focused product thinking. He is currently a Generative AI Engineer Intern at Blackbucks Education.";
+  }
+  return "Harsha is a B.Tech AI and ML student focused on reliable GenAI products, full-stack delivery and practical machine learning. Ask about his projects, skills or experience.";
+}
+
 export default function AskAI() {
   const [messages, setMessages] = useState([
     {
@@ -12,6 +28,7 @@ export default function AskAI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const scrollRef = useRef(null);
+  const [selectedPrompt, setSelectedPrompt] = useState("");
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -30,13 +47,16 @@ export default function AskAI() {
     setMessages(nextMessages);
     setLoading(true);
 
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 14000);
+
     try {
-      const apiUrl = import.meta.env.DEV
-        ? (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "")
-        : "";
+      // Local development always uses Vite's /api proxy so stale .env.local URLs cannot break chat.
+      const apiUrl = import.meta.env.DEV ? "" : "";
 
       const response = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
+        signal: controller.signal,
         headers: {
           "Content-Type": "application/json",
           ...(apiUrl.includes("ngrok") ? { "ngrok-skip-browser-warning": "true" } : {}),
@@ -53,6 +73,10 @@ export default function AskAI() {
         const message =
           typeof data.error === "string"
             ? data.error
+            : typeof data.detail === "string"
+              ? data.detail
+              : response.status === 502 && import.meta.env.DEV && !apiUrl
+                ? "The local AI backend is offline. Start Backend with: python -m uvicorn main:app --reload --port 8000"
             : response.status === 401
               ? "This deployment is protected. Disable protection to expose the assistant publicly."
               : "Assistant is temporarily unavailable.";
@@ -62,9 +86,21 @@ export default function AskAI() {
       const data = await response.json();
       setMessages((prev) => [...prev, { role: "assistant", text: data.text || "Please try again." }]);
     } catch (e) {
-      setError(e.message || "Could not reach the assistant right now.");
-      setMessages((prev) => prev.slice(0, -1));
+      const message = e.name === "AbortError"
+        ? "The assistant took too long to respond. Please try again."
+        : e.name === "TypeError" && import.meta.env.DEV
+          ? "The local AI backend is not reachable. Start the Backend server on port 8000."
+          : e.message || "Could not reach the assistant right now.";
+      const canUseLocalFallback = e.name === "TypeError" || e.name === "AbortError" || e.message?.includes("local AI backend");
+      if (canUseLocalFallback) {
+        setMessages((prev) => [...prev, { role: "assistant", text: `${localAnswer(q)}\n\n(API unavailable locally, so I answered from the portfolio profile.)` }]);
+        setError(null);
+      } else {
+        setError(message);
+        setMessages((prev) => prev.slice(0, -1));
+      }
     } finally {
+      window.clearTimeout(timeoutId);
       setLoading(false);
     }
   }
@@ -72,8 +108,9 @@ export default function AskAI() {
   return (
     <div className="chat-card">
       <div className="chat-top">
-        <Sparkles size={15} />
-        <p>AI Portfolio Assistant</p>
+        <div className="assistant-orbit"><Sparkles size={16} /></div>
+        <div><p className="eyebrow">Portfolio intelligence</p><h3>Ask me anything about the work.</h3></div>
+        <span className="chat-live">Ask AI</span>
       </div>
 
       <div ref={scrollRef} className="chat-stream">
@@ -94,6 +131,10 @@ export default function AskAI() {
         {error && <p className="chat-error">{error}</p>}
       </div>
 
+      <div className="prompt-row">
+        {promptSuggestions.map((prompt) => <button key={prompt} type="button" className="prompt-chip" onClick={() => { setSelectedPrompt(prompt); send(prompt); }} disabled={loading}>{prompt}</button>)}
+      </div>
+
       <form
         className="chat-form"
         onSubmit={(e) => {
@@ -104,7 +145,7 @@ export default function AskAI() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask about projects, role fit, or skills"
+          placeholder={selectedPrompt || "Ask about projects, role fit, or skills"}
           className="chat-input"
         />
         <button className="chat-send" type="submit" disabled={loading || !input.trim()}>

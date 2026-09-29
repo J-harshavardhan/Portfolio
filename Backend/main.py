@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -11,7 +11,7 @@ API_KEY = os.getenv("GROQ_API_KEY")
 if not API_KEY:
     raise RuntimeError("GROQ_API_KEY is not set. Add it to backend/.env")
 
-client = Groq(api_key=API_KEY)
+client = Groq(api_key=API_KEY, timeout=12.0, max_retries=1)
 
 app = FastAPI()
 
@@ -76,12 +76,12 @@ Answer questions about Harsha's projects, skills, experience, and fit for roles.
 
 
 class Message(BaseModel):
-    role: str
-    content: str
+    role: str = Field(pattern="^(user|assistant)$")
+    content: str = Field(min_length=1, max_length=4000)
 
 
 class ChatRequest(BaseModel):
-    messages: list[Message]
+    messages: list[Message] = Field(min_length=1, max_length=12)
 
 
 @app.post("/api/chat")
@@ -95,8 +95,8 @@ def chat(req: ChatRequest):
         )
         text = response.choices[0].message.content
         return {"text": text}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=502, detail="The assistant provider is temporarily unavailable. Please try again.")
 
 
 @app.get("/health")

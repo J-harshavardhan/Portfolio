@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const navItems = [
@@ -9,9 +9,27 @@ const navItems = [
   { to: "/achievements", label: "Achievements" },
   { to: "/skills", label: "Skills" },
   { to: "/resume", label: "Resume" },
-  { to: "/admin", label: "Admin" },
   { to: "/contact", label: "Contact" },
 ];
+
+function CursorDot() {
+  const dotRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const dot = dotRef.current;
+    if (!dot || !window.matchMedia("(pointer: fine)").matches) return undefined;
+
+    const move = (event) => {
+      dot.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+      dot.classList.add("cursor-dot-visible");
+    };
+
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => window.removeEventListener("pointermove", move);
+  }, []);
+
+  return <span ref={dotRef} className="cursor-dot" aria-hidden="true" />;
+}
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +40,8 @@ export default function Layout() {
       <header className="top-nav">
         <div className="shell nav-inner">
           <Link to="/" className="brand">
-            J. Harshavardhan
+            <span className="brand-mark">JH</span>
+            <span>J. Harshavardhan</span>
           </Link>
 
           <nav className="nav-links" aria-label="Main">
@@ -35,6 +54,10 @@ export default function Layout() {
               </NavLink>
             ))}
           </nav>
+
+          <Link to="/contact" className="nav-cta">
+            Let&apos;s talk <ArrowUpRight size={14} />
+          </Link>
 
           <button
             className="menu-toggle"
@@ -62,11 +85,17 @@ export default function Layout() {
         )}
       </header>
 
+      <CursorDot />
+
       <main>
         <Outlet />
       </main>
 
-      <footer className="footer shell">Built with React and FastAPI - {new Date().getFullYear()}</footer>
+      <footer className="footer shell">
+        <span>J. Harshavardhan</span>
+        <span>AI / ML · Full-stack · Product-minded</span>
+        <span>{new Date().getFullYear()}</span>
+      </footer>
     </div>
   );
 }
