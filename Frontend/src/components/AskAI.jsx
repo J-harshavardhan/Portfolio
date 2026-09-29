@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Loader2, Send, Sparkles } from "lucide-react";
 
-const fallbackPrompts = [
-  "What makes Harsha a strong AI intern?",
-  "Which project best shows production skills?",
-  "How strong is his DSA profile?",
-  "What stack does he use most often?",
-];
-
-export default function AskAI({ prompts = fallbackPrompts }) {
+export default function AskAI() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -99,14 +92,6 @@ export default function AskAI({ prompts = fallbackPrompts }) {
         )}
 
         {error && <p className="chat-error">{error}</p>}
-      </div>
-
-      <div className="prompt-row">
-        {prompts.map((prompt) => (
-          <button key={prompt} type="button" className="prompt-chip" onClick={() => send(prompt)} disabled={loading}>
-            {prompt}
-          </button>
-        ))}
       </div>
 
       <form

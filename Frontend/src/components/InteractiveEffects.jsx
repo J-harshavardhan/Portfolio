@@ -1,6 +1,10 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
+
+const MotionLink = motion.create(Link);
+const MotionAnchor = motion.create("a");
+const MotionButton = motion.create("button");
 
 export function AnimatedSectionHeading({ kicker, title, className = "" }) {
   const prefersReducedMotion = useReducedMotion();
@@ -168,9 +172,6 @@ function createRipple(event, setRipples) {
 export function MagneticButton({ to, href, onClick, className = "", children, ...props }) {
   const prefersReducedMotion = useReducedMotion();
   const [ripples, setRipples] = useState([]);
-  const MotionLink = motion(Link);
-  const MotionAnchor = motion.a;
-  const MotionButton = motion.button;
 
   const sharedProps = {
     className: `btn magnetic-control ${className}`.trim(),

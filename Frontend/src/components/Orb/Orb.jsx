@@ -1,5 +1,5 @@
 import { Mesh, Program, Renderer, Triangle, Vec3 } from 'ogl';
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import './Orb.css';
 
 export default function Orb({

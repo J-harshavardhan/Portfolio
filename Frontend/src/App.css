@@ -934,24 +934,6 @@ p {
   font-weight: 600;
 }
 
-.prompt-row {
-  padding: 0 1rem 0.9rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
-.prompt-chip {
-  border: 1px solid var(--stroke);
-  background: var(--surface-2);
-  color: var(--ink-700);
-  border-radius: 999px;
-  padding: 0.32rem 0.62rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
 .chat-form {
   border-top: 1px solid var(--stroke);
   padding: 0.8rem 1rem;
@@ -1023,6 +1005,7 @@ p {
   justify-content: space-between;
   align-items: center;
   gap: 0.55rem;
+  min-width: 0;
   color: var(--ink-700);
   font-size: 0.87rem;
 }
@@ -1031,6 +1014,8 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .footer {

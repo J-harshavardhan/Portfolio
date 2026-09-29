@@ -36,7 +36,7 @@ export default function HomePage() {
     );
   }
 
-  const { profile, stats, projects, links, suggestedPrompts } = data;
+  const { profile, stats, projects, links } = data;
 
   const handleResumeDownload = async () => {
     try {
@@ -145,7 +145,7 @@ export default function HomePage() {
 
       <section className="shell section visible">
         <AnimatedSectionHeading kicker="Assistant" title="Ask For More Details" />
-        <AskAI prompts={suggestedPrompts} />
+        <AskAI />
       </section>
     </>
   );
