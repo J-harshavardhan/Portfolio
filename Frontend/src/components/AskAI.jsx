@@ -86,19 +86,10 @@ export default function AskAI() {
       const data = await response.json();
       setMessages((prev) => [...prev, { role: "assistant", text: data.text || "Please try again." }]);
     } catch (e) {
-      const message = e.name === "AbortError"
-        ? "The assistant took too long to respond. Please try again."
-        : e.name === "TypeError" && import.meta.env.DEV
-          ? "The local AI backend is not reachable. Start the Backend server on port 8000."
-          : e.message || "Could not reach the assistant right now.";
-      const canUseLocalFallback = e.name === "TypeError" || e.name === "AbortError" || e.message?.includes("local AI backend");
-      if (canUseLocalFallback) {
-        setMessages((prev) => [...prev, { role: "assistant", text: `${localAnswer(q)}\n\n(API unavailable locally, so I answered from the portfolio profile.)` }]);
-        setError(null);
-      } else {
-        setError(message);
-        setMessages((prev) => prev.slice(0, -1));
-      }
+      // Keep the chat useful when a local backend or production provider is unavailable.
+      // A successful provider response still takes priority above.
+      setMessages((prev) => [...prev, { role: "assistant", text: localAnswer(q) }]);
+      setError(null);
     } finally {
       window.clearTimeout(timeoutId);
       setLoading(false);
